@@ -1,25 +1,56 @@
+import java.util.List;
+import java.util.LinkedList;
+
 Maxim maxim;
-AudioPlayer lightSound;
-Light light;
+List<Light> lights;
+List<Light> lightsToRemove;
+
+AudioPlayer[] lightSound;
+int maxSounds = 3;
+int lastPlayedSound;
 
 void setup() {
   size(640, 480);
   background(0);
 
   maxim = new Maxim(this);
-  lightSound = maxim.loadFile("lighting.wav");
-  lightSound.setLooping(false);
+  lightSound = new AudioPlayer[maxSounds];
+  for (int i = 0; i < lightSound.length; i++) {
+    lightSound[i] = maxim.loadFile("lighting.wav");
+    lightSound[i].setLooping(false); 
+  }
+  
+  lights = new LinkedList<Light>();
+  lightsToRemove = new LinkedList<Light>();
 }
 
 void draw() {
-  if (light != null) {
+  for (Light light : lights) {
     light.draw();
+    
+    if (light.isFinished()) {
+      lightsToRemove.add(light);
+    }
+  }
+  
+  if (! lightsToRemove.isEmpty()) {
+    lights.removeAll(lightsToRemove);
+    
+    if (lights.isEmpty()) {
+      clear();
+    }
   }
 }
 
 void mousePressed() {
-  light = new Light((int) random(0, width), 0);
-  lightSound.cue(0);
-  lightSound.play();
+  lights.add(new Light((int) random(0, width), 0));
+  
+  lastPlayedSound++;
+  if (lastPlayedSound >= maxSounds) {
+    lastPlayedSound = 0;    
+  }
+  
+  lightSound[lastPlayedSound].cue(0);
+  lightSound[lastPlayedSound].play();
 }
 

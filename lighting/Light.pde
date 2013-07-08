@@ -30,8 +30,11 @@ class Light {
     y = newY;
     if (y > height) {
       finished = true;
-      clear();
     }
+  }
+  
+  boolean isFinished() {
+    return finished;
   }
 }
 
