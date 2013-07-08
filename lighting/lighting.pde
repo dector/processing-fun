@@ -7,7 +7,7 @@ void setup() {
   background(0);
 
   maxim = new Maxim(this);
-  lightSound = maxim.loadFile("lighting.mp3");
+  lightSound = maxim.loadFile("lighting.wav");
   lightSound.setLooping(false);
 }
 
