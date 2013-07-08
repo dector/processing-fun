@@ -1,41 +1,43 @@
 class Light {
 
-  int x, y;
-  boolean finished;
+  LightLine mainPart;
+  LightLine[] smallParts;
   
-  long time;
+  int branches;
+  int lastBranch = -1;
+  int branchStep;
 
-  Light(int x, int y) {
-    this.x = x;
-    this.y = y;
+  Light(int x, int y, int branches) {
+    mainPart = new LightLine(x, y, 4, height, 0);
     
-    time = millis();
+    this.branches = branches;
+    smallParts = new LightLine[branches];
+    
+    branchStep = height/(branches + 1);
   }
 
   void draw() {
-    if (finished) return;
+    mainPart.draw();
     
-    if (millis() - time < 10) return;
-    time = millis();
-    
-    float bend = (y < height/2 ? 1 : -1) * random(0, 4) * 2;
-    
-    int newX = x + (int) (random(-15, 15) + bend);
-    int newY = y + (int) random(10, 30);
-    
-    stroke(255);
-    strokeWeight(2);
-    line(x, y, newX, newY);
-    
-    x = newX;
-    y = newY;
-    if (y > height) {
-      finished = true;
+    for (LightLine line : smallParts) {
+      if (line != null) line.draw();
     }
+    
+    int l = getCurLength();
+    if ((lastBranch+2) * branchStep <= l && lastBranch+1 < branches && smallParts[lastBranch+1] == null) {
+      println(l +"/"+ branchStep);
+      lastBranch++;
+      float angle = (lastBranch % 2 == 0) ? random(35, 55) : random(-55, -35);
+      smallParts[lastBranch] = new LightLine(mainPart.pos[0], mainPart.pos[1], 1, height/2, (int) angle);        
+    }  
   }
   
   boolean isFinished() {
-    return finished;
+    return mainPart.finished;
+  }
+  
+  int getCurLength() {
+    return mainPart.getCurLength(); 
   }
 }
 

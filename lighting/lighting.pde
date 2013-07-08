@@ -43,7 +43,7 @@ void draw() {
 }
 
 void mousePressed() {
-  lights.add(new Light((int) random(0, width), 0));
+  lights.add(new Light(mouseX, 0, 5));
   
   lastPlayedSound++;
   if (lastPlayedSound >= maxSounds) {
