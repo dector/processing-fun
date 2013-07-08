@@ -1,73 +1,46 @@
+import java.util.List;
+import java.util.LinkedList;
+
+List<Line> lines;
+List<Line> toRemove;
+
 void setup() {
   size(640, 480);
   background(0);
   colorMode(HSB, 500, 1, 1);
+  
+  lines = new LinkedList<Line>();
+  toRemove = new LinkedList<Line>();
 }
-
-boolean drawing = false;
-int x = (int) random(0, width);
-int y = (int) random(0, height);
-
-int drawTime = 5;
-long lastTime = millis();
-
-color lineColor = color(0, 100, 100);
 
 void draw() {
-  strokeWeight(2);
-  
-  while (drawing) {
-    long currTime = millis();
-    if (currTime - lastTime < drawTime) {
-      break;
-    }
+  for (Line line : lines) {
+    line.draw();
     
-    long partsCount = (currTime - lastTime) / drawTime;
-    for (int i = 0; i < partsCount; i++) {
-      drawPart();
+    if (! line.drawing) {
+      toRemove.add(line);
     }
-    lastTime = currTime;
   }
-}
-
-void drawPart() {
-  //lineColor = color(hue(lineColor)
-  //  + (int) random(-50, 50), 100, 100);
-  stroke(lineColor);
-
-  lineColor = color(hue(lineColor)
-      + (int) random(-5, 15), 100, 100);  
   
-  println(hue(lineColor));
-  
-  int byX = (int) random(-15, 15);
-  int byY = (int) random(-15, 15);
-  
-  int newX = x + byX;
-  int newY = y + byY;
-  
-  line(x, y, newX, newY);
-  
-  x = newX;
-  y = newY;
-  
-  if (x < 0 || x > width || y < 0 || y > height) {
-    drawing = false;
-    println("finished");
+  if (! toRemove.isEmpty()) {
+    lines.removeAll(toRemove);
+    toRemove.clear();
   }
 }
 
 void mousePressed() {
-  drawing = true;
-  x = mouseX;
-  y = mouseY;
-  //x = (int) random(0, width);
-  //y = (int) random(0, height);
-  lastTime = millis();
+  lines.add(new Line(mouseX, mouseY, 2));
 }
 
 void keyPressed() {
-  if (key == ' ') {
-    clear();
+  switch (key) {
+    case ' ':
+      if (lines.isEmpty()) {
+        clear();
+      } else {
+        lines.clear();
+      }
+      
+      break;
   }
 }
