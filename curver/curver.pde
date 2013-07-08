@@ -11,8 +11,8 @@ void setup() {
   background(0);
   colorMode(HSB, 500, 1, 1);
   
-  lines = new LinkedList<Line>();
-  toRemove = new LinkedList<Line>();
+  lines = new ArrayList<Line>();
+  toRemove = new ArrayList<Line>();
   
   recorder = new FrameRecorder("curver");
   recorder.setEnabled(false);
@@ -51,7 +51,6 @@ void keyPressed() {
       }
       
       recorder.recStop();  
-      
       break;
     case '1':
       recorder.setEnabled(true);

@@ -7,23 +7,23 @@ class Line {
   boolean drawing;
   long lastTime;
   
-  int stroke;
+  int strokeW;
   
-  color lineColor = color(0, 100, 100);
+  color lineColor;
   
-  Line(int x, int y, int stroke) {
+  Line(int x, int y, int strokeW) {
     this.x = x;
     this.y = y;
-    this.stroke = stroke;
+    this.strokeW = strokeW;
     
-    lineColor = color((int) random(0, 500), 100, 100);
+    lineColor = color((int) random(1, 500), 100, 100);
     
     lastTime = millis();
     drawing = true;
   }
   
   void draw() {
-    strokeWeight(stroke);
+    strokeWeight(strokeW);
   
     while (drawing) {
       long currTime = millis();
@@ -44,8 +44,8 @@ class Line {
     //  + (int) random(-50, 50), 100, 100);
     stroke(lineColor);
   
-    lineColor = color(hue(lineColor)
-        + (int) random(-5, 15), 100, 100);  
+    int cc = hue(lineColor) + (int) random(-5, 15);
+    lineColor = color((cc > 0) ? cc : 1, 100, 100);  
     
     int byX = (int) random(-15, 15);
     int byY = (int) random(-15, 15);
