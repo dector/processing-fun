@@ -12,7 +12,7 @@ int lastPlayedSound;
 void setup() {
   size(640, 480);
   background(0);
-
+  
   maxim = new Maxim(this);
   lightSound = new AudioPlayer[maxSounds];
   for (int i = 0; i < lightSound.length; i++) {
