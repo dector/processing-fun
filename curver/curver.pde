@@ -4,6 +4,8 @@ import java.util.LinkedList;
 List<Line> lines;
 List<Line> toRemove;
 
+FrameRecorder recorder;
+
 void setup() {
   size(640, 480);
   background(0);
@@ -11,6 +13,8 @@ void setup() {
   
   lines = new LinkedList<Line>();
   toRemove = new LinkedList<Line>();
+  
+  recorder = new FrameRecorder("curver");
 }
 
 void draw() {
@@ -26,10 +30,14 @@ void draw() {
     lines.removeAll(toRemove);
     toRemove.clear();
   }
+  
+  recorder.capture();
 }
 
 void mousePressed() {
   lines.add(new Line(mouseX, mouseY, 2));
+  
+  recorder.recStart();
 }
 
 void keyPressed() {
@@ -40,6 +48,8 @@ void keyPressed() {
       } else {
         lines.clear();
       }
+      
+      recorder.recStop();  
       
       break;
   }

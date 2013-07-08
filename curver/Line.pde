@@ -60,7 +60,7 @@ class Line {
     
     if (x < 0 - BUFFER_ZONE || x > width + BUFFER_ZONE || y < 0 - BUFFER_ZONE || y > height + BUFFER_ZONE) {
       drawing = false;
-      println("finished");
+      //println("finished");
     }
   }
 }
