@@ -15,6 +15,7 @@ void setup() {
   toRemove = new LinkedList<Line>();
   
   recorder = new FrameRecorder("curver");
+  recorder.setEnabled(false);
 }
 
 void draw() {
@@ -51,6 +52,12 @@ void keyPressed() {
       
       recorder.recStop();  
       
+      break;
+    case '1':
+      recorder.setEnabled(true);
+      break;
+    case '2':
+      recorder.setEnabled(false);
       break;
   }
 }

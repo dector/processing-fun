@@ -6,6 +6,7 @@ class FrameRecorder {
   long captureTime;
   long timestamp;
   
+  boolean enabled;
   boolean started;
   
   FrameRecorder(String name) {
@@ -15,6 +16,14 @@ class FrameRecorder {
   FrameRecorder(String name, long captureTime) {
     this.name = name;
     this.captureTime = captureTime;
+    
+    setEnabled(true);
+  }
+  
+  void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+    
+    println("Frame Recorder `"+ name +"` "+ (enabled ? "on" : "off"));
   }
   
   void recStart() {
@@ -33,6 +42,7 @@ class FrameRecorder {
   }
   
   void capture() {
+    if (! enabled) return;
     if (! started) return;
     
     long currTime = millis();
